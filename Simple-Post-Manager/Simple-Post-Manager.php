@@ -70,7 +70,7 @@ function my_plugin_options() {
 	<?php
 					if(isset($_POST['postdraft'])){
 						include("../wp-load.php");
-						$args = array('fields' => 'id=>post_status');
+						$args = array('fields' => 'id=>post_status','numberposts' => -1);
 						$the_query = get_posts( $args );
 						if(!$the_query){
 							echo "no published post";
