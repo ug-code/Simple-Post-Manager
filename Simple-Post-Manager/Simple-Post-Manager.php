@@ -23,18 +23,18 @@
 // ░█▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░
 // ░██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█░░░░░
 // ░░████████████░░░█████████████████░░░░░░
-add_action('admin_menu', 'draft_manager');
+add_action('admin_menu', 'spm_SimplePostManager');
 
 // Here you can check if plugin is configured (e.g. check if some option is set). If not, add new hook. 
 // In this example hook is always added.
 
 	defined( 'ABSPATH' ) || exit;
-function draft_manager() {
+function spm_SimplePostManager() {
 	// Add the new admin menu and page and save the returned hook suffix
-	$hook_suffix = add_posts_page('Simple Post Manager', 'Post Manager', 'manage_options', 'draft_manager', 'my_plugin_options');
+	$hook_suffix = add_posts_page('Simple Post Manager', 'Simple Post Manager', 'manage_options', 'spm_SimplePostManager', 'spm_SimplePostManager_options');
 	// Use the hook suffix to compose the hook and register an action executed when plugin's options page is loaded
 }
-function my_plugin_options() {
+function spm_SimplePostManager_options() {
 	if (!current_user_can('manage_options'))  
 	{
 		wp_die( __('You do not have sufficient permissions to access this page.') );
