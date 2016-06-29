@@ -8,27 +8,14 @@
 	Tags: drafts, posts
 	*/
 
-// ░░░░░░░░░░░░░░░░░░░░░░█████████░░░░░░░░░
-// ░░███████░░░░░░░░░░███▒▒▒▒▒▒▒▒███░░░░░░░
-// ░░█▒▒▒▒▒▒█░░░░░░░███▒▒▒▒▒▒▒▒▒▒▒▒▒███░░░░
-// ░░░█▒▒▒▒▒▒█░░░░██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░
-// ░░░░█▒▒▒▒▒█░░░██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███░
-// ░░░░░█▒▒▒█░░░█▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██
-// ░░░█████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██
-// ░░░█▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██
-// ░██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██
-// ██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██
-// █▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██
-// ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░
-// ░█▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██░░░
-// ░██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█░░░░░
-// ░░████████████░░░█████████████████░░░░░░
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if access directly
+
 add_action('admin_menu', 'spm_SimplePostManager');
 
 // Here you can check if plugin is configured (e.g. check if some option is set). If not, add new hook. 
 // In this example hook is always added.
 
-	defined( 'ABSPATH' ) || exit;
+
 function spm_SimplePostManager() {
 	// Add the new admin menu and page and save the returned hook suffix
 	$hook_suffix = add_posts_page('Simple Post Manager', 'Simple Post Manager', 'manage_options', 'spm_SimplePostManager', 'spm_SimplePostManager_options');
@@ -67,47 +54,50 @@ function spm_SimplePostManager_options() {
 		</div>
 	</div>
 
-	<?php
-					if(isset($_POST['postdraft'])){
-						include("../wp-load.php");
-						$args = array('fields' => 'id=>post_status','numberposts' => -1);
-						$the_query = get_posts( $args );
-						if(!$the_query){
-							echo "no published post";
-						}
-						foreach($the_query as $post){
-						  $my_post = array();
-						  $my_post['ID'] = $post->ID;
-						  $my_post['post_status'] = 'draft';
-						  $ekle=wp_update_post( $my_post );
-						 if($ekle){echo "Successfully updated<br>";}	 
-						 else{echo "update failed";} 
-						}
-					}
-					if(isset($_POST['postdelete'])){
-						include("../wp-load.php");
-						$args = array('fields' => 'id=>post_status');
-						$the_query = get_posts( $args );
-						if(!$the_query)
-						{
-							echo "no published post";
-						}
-						foreach($the_query as $post)
-						{
-						  $delete= wp_delete_post($post->ID,true);
-						 if($delete){echo "Successfully updated<br>";}	 
-						 else{echo "delete failed";}
-						}				
-					}
-					?>					
+<?php
+
+	if( current_user_can( 'administrator' ) ){
+		
+		if(isset($_POST['postdraft'])){
+			$args = array('fields' => 'id=>post_status','numberposts' => -1);
+			$the_query = get_posts( $args );
+			if(!$the_query){
+				echo "no published post";
+			}
+			foreach($the_query as $post){
+			  $my_post = array();
+			  $my_post['ID'] = $post->ID;
+			  $my_post['post_status'] = 'draft';
+			  $ekle=wp_update_post( $my_post );
+			 if($ekle){echo "Successfully updated<br>";}	 
+			 else{echo "update failed";} 
+			}
+		}
+		if(isset($_POST['postdelete'])){
+
+
+			$args = array('fields' => 'id=>post_status','numberposts' => -1);
+			$the_query = get_posts( $args );
+			if(!$the_query){
+				echo "no published post";
+			}
+			foreach($the_query as $post){
+
+			 $delete= wp_delete_post($post->ID,true);
+			 if($delete){echo "Successfully updated<br>";}	 
+			 else{echo "delete failed";}
+			}				
+		}
+
+	}
+?>					
 	 <div class="wrap">
 		<div class="card pressthis">	
-			<center><h3>Comming Soon</h3></center>	
-		<img style="height: 100px; width: 520px;" src="http://www.zwani.com/graphics/animated/images/5animated203.gif" alt="Simple Post manager"  title="Simple Post Manager"/>
+			<center><h3>Click And Enjoy</h3></center>	
 		</div>
 	</div>									
 <?php
 }
 	
-
+?>
 
