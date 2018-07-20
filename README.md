@@ -29,6 +29,9 @@ e.g.
 
 == Screenshots ==
 
+![Screenshot](https://ps.w.org/simple-post-manager/assets/screenshot-1.png?rev=1453442)
+
+
 1. this plugin is very simple.
 
 == Changelog ==
